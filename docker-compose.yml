@@ -1,0 +1,23 @@
+services:
+  clay:
+    build: .
+    ports:
+      - "${CLAY_PROXY_PORT:-8080}:8080"   # Proxy (public page + API)
+      - "${CLAY_DEBUG_PORT:-8081}:8081"   # ADK debugger UI
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - CLAY_ROOT=/app
+      - CLAY_DB=/app/data/messages.db
+    volumes:
+      - clay-data:/app/data
+      - clay-soul:/app/soul
+      - clay-public:/app/public
+    restart: unless-stopped
+    mem_limit: 512m
+
+volumes:
+  clay-data:
+  clay-soul:
+  clay-public:

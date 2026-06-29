@@ -80,7 +80,7 @@ func buildSubAgentsWithPrefix(llm model.LLM, memTool *tools.MemoryTool, prefix s
 	}
 	claudeTools = append(claudeTools, memoryTool)
 
-	claudeAgent, err := agents.NewClaudeAgent(llm, claudeTools, prefix)
+	claudeAgent, err := agents.NewClaudeAgent(llm, claudeTools, prefix, loadPrompt("claude.md", promptVars{}))
 	if err != nil {
 		return nil, fmt.Errorf("claude agent: %w", err)
 	}
@@ -89,7 +89,7 @@ func buildSubAgentsWithPrefix(llm model.LLM, memTool *tools.MemoryTool, prefix s
 	if err != nil {
 		return nil, fmt.Errorf("research tools: %w", err)
 	}
-	researchAgent, err := agents.NewResearchAgent(llm, researchTools, prefix)
+	researchAgent, err := agents.NewResearchAgent(llm, researchTools, prefix, loadPrompt("research_agent.md", promptVars{}))
 	if err != nil {
 		return nil, fmt.Errorf("research agent: %w", err)
 	}

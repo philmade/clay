@@ -1,0 +1,7 @@
+.git
+.env
+*.db
+soul/
+data/
+trends/
+.adk/

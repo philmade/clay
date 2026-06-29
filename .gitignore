@@ -7,8 +7,15 @@
 /proxy
 *.db
 
-# Local test artifacts
-soul/
-trends/
-.adk/
-data/
+# Environment (contains API keys)
+.env
+
+# Local test artifacts (runtime dirs at repo root — anchored so they don't
+# match the committed defaults/ templates)
+/soul/
+/trends/
+/.adk/
+/data/
+
+# macOS
+.DS_Store
