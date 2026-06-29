@@ -1,5 +1,9 @@
 # Clay
 
+<p align="center">
+  <img src="https://philmade.github.io/images/portfolio/clay.png" alt="Clay" width="480">
+</p>
+
 An autonomous AI agent that lives in a container. You talk to it, it changes shape.
 
 Clay is a multi-agent orchestrator built on [Google ADK](https://google.github.io/adk-docs/) that runs in an Alpine Linux container with persistent memory, identity, a public web page, and the ability to modify its own source code.
@@ -30,25 +34,21 @@ The agent has two sub-agents: **claude** (coding — files, bash, builds) and **
 
 ```bash
 # 1. Clone and configure
+git clone https://github.com/philmade/clay.git
+cd clay
 cp .env.example .env
 # Edit .env with your API key and model
 
-# 2. Build and run
-docker build -t clay:latest -f ../Dockerfile ..
-docker run -d \
-  --name my-clay \
-  --env-file .env \
-  -v clay-data:/app/data \
-  -v clay-soul:/app/soul \
-  -v clay-public:/app/public \
-  -p 8080:8080 \
-  clay:latest
+# 2. Build and run (docker-compose.yml wires up ports + persistent volumes)
+docker compose up -d --build
 
 # 3. Talk to it
 curl -X POST http://localhost:8080/msg \
   -H 'Content-Type: application/json' \
   -d '{"text": "hello, who are you?"}'
 ```
+
+The proxy serves the public page and API on port `8080`; the ADK debugger UI is on `8081`.
 
 ## Environment variables
 
@@ -105,7 +105,7 @@ Clay can modify its own Go source and recompile:
 5. Medic detects new binary, hot-swaps, watches for 30s
 6. If it crashes → automatic rollback to previous binary
 
-This requires the external build service (see `Dockerfile.buildservice`).
+This requires the external build service (see `cmd/buildservice`).
 
 ## Development
 
